@@ -7,8 +7,6 @@ function App() {
     <>
      <div className="app">
       <Hello/>
-      <Hello/>
-      <Hello/>
      </div>
     </>
   )
