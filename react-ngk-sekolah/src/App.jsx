@@ -1,5 +1,13 @@
+import ResultSearch from "./components/ResultSearch"
+import SearchBar from "./components/SeearchBar"
+
 function App() {
-  return (<h1 className="text-xl text-center">Ini sudah berhasil</h1>)
+  return (
+   <section id="home" className="space-y-10">
+      <SearchBar/>
+      <ResultSearch/>
+    </section>
+)
 }
 
 export default App
