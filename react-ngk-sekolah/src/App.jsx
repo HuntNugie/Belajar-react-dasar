@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 
 function App() {
   const [keyword,setKeyword] = useState("")
+  const [data,setData] = useState({})
   const getKeyword = (key)=>{
     setTimeout(()=>{
       setKeyword(key)
@@ -12,7 +13,7 @@ function App() {
   }
 
   useEffect(()=>{
-    fetchData("sekolah?page=1&perPage=5")
+   fetchData("sekolah?page=1&perPage=5").then(result=>setData(result))
   },[])
 
   useEffect(()=>{
@@ -23,7 +24,7 @@ function App() {
   return (
    <section id="home" className="space-y-10">
       <SearchBar fnGetKeyword={getKeyword}/>
-      <ResultSearch/>
+      <ResultSearch getData={data}/>
     </section>
 )
 }
