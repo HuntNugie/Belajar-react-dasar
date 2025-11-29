@@ -17,6 +17,7 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
   nama String 
+  created_at DateTime @default(now())
   blogs Blog[]
 }
 
@@ -24,6 +25,7 @@ model Category{
   id Int @id @default(autoincrement())
   nama_category String
   slug String
+  created_at DateTime @default(now())
   blogs Blog[]
 }
 
@@ -32,6 +34,7 @@ model Blog{
   judul String
   body String
 
+  created_at DateTime @default(now())
   // relasi ke user
   author User @relation(fields: [author_id], references: [id])
   author_id Int
