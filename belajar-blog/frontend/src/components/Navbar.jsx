@@ -23,6 +23,9 @@ export const Navbar = () => {
                             <Link to="/about" className="text-gray-300 hover:text-white transition">
                                 Tentang
                             </Link>
+                            <Link to="/add-blog" className="text-gray-300 hover:text-white transition">
+                                add blog
+                            </Link>
                         </div>
                     </div>
                     <button className="md:hidden text-gray-300">

@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage.jsx";
 import ArticlePage from "./pages/ArticlePage.jsx";
 import BlogLayout from "./layouts/BlogLayout.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
+import AddBlogPage from "./pages/AddBlogPage.jsx";
 export default function App() {
     return (
         <BrowserRouter>
@@ -11,6 +12,7 @@ export default function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/blog" element={<ArticlePage />} />
                     <Route path="/about" element={<AboutPage />} />
+                    <Route path="/add-blog" element={<AddBlogPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
