@@ -4,10 +4,16 @@ import Search from "../components/Article/Search";
 import {useState} from "react";
 import axios from "axios";
 import { LoadingArticleCard } from "../components/LoadingArticleCard";
+
 export default function ArticlePage() {
     const [post, setPost] = useState([]);
+    const [keyword,setKeyword] = useState("");
     const [loading,setLoading] = useState(true);
     const api = import.meta.env.VITE_BACKEND_API;
+    const handleKeyword = (value)=>{
+        setKeyword(value)
+        console.log(value)
+    }
     useEffect(() => {
         const request = async () => {
             const res = await axios.get(`${api}/blog/all`);
@@ -19,7 +25,8 @@ export default function ArticlePage() {
     }, []);
     return (
         <div id="articles-page" className="space-y-8">
-            <Search />
+            <Search onKeyword={handleKeyword}/>
+            <small>keyword : {keyword}</small>
             {/* Articles Grid */}
             <div id="articlesGrid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {loading ? (<LoadingArticleCard/>) : post.map((el) => (

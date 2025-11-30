@@ -1,4 +1,11 @@
-export default function Search() {
+export default function Search({onKeyword}) {
+    const handleSearch = (e)=>{
+        let penampung;
+        setTimeout(() => {
+            penampung = e.target.value
+            onKeyword(penampung)
+        }, 2000);
+    }
     return (
         <>
             <div className="mb-8">
@@ -6,6 +13,7 @@ export default function Search() {
                 <input
                     type="text"
                     id="searchInput"
+                    onChange={handleSearch}
                     placeholder="Cari artikel..."
                     className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                 />
