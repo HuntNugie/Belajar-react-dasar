@@ -1,10 +1,13 @@
 export default function Search({onKeyword}) {
+    let timer
     const handleSearch = (e)=>{
+        clearTimeout(timer);
         let penampung;
-        setTimeout(() => {
+       
+        timer = setTimeout(() => {
             penampung = e.target.value
             onKeyword(penampung)
-        }, 2000);
+        }, 1500);
     }
     return (
         <>
