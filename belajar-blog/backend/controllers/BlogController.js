@@ -35,3 +35,46 @@ export const show = async(req,res)=>{
         res.status(400).json(error)
     }
 }
+
+// untuk search
+// export const search = async(req,res)=>{
+//     try {
+//         const whatSearch = req.query.s;
+//         const data = await Blog.findMany({
+//             where:{
+//                 OR:[{title:{contains}}]
+//             }
+//         })
+//     } catch (error) {
+        
+//     }
+// }
+
+
+// untuk tambah data 
+export const store = async(req,res)=>{
+    try {
+        const {author,title,category_id,body} = req.body;
+        const tambah = await Blog.create({
+            data:{
+                author:{
+                    create:{
+                        nama:author
+                    }
+                },
+                judul:title,
+                categories:{
+                    connect:{id:Number(category_id)}
+                },
+                body
+            },
+            include:{
+                author:true,
+                categories:true
+            }
+        });
+        res.status(200).json(tambah);
+    } catch (error) {
+        res.status(404).json({message:"gagal"})
+    }
+}

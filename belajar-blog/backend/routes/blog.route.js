@@ -1,12 +1,17 @@
-import { Router } from "express";
-import { index, show } from "../controllers/BlogController.js";
+import {Router} from "express";
+import {index, show, store} from "../controllers/BlogController.js";
 
 const blogRoute = Router();
 
 // untuk filter mau berapa banyak
-blogRoute.get("/query",show)
+blogRoute.get("/query", show);
 
 // untuk mengambil seluruh nya
-blogRoute.get("/all",index)
+blogRoute.get("/all", index);
 
-export default blogRoute
+// untuk search blog nya
+// blogRoute.get("/search",search);
+
+// untuk tambah data
+blogRoute.post("/add-blog", store);
+export default blogRoute;
