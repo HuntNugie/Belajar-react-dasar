@@ -16,65 +16,86 @@ export const index = async (req, res) => {
 };
 
 // untuk mengambil beberapa data blog berdasarkan query parameter
-export const show = async(req,res)=>{
+export const show = async (req, res) => {
     try {
         const limit = parseInt(req.query.limit);
-        if(limit){
+        if (limit) {
             const data = await Blog.findMany({
-                take:limit,
-                include:{
-                    author:true,
-                    categories:true
-                }
+                take: limit,
+                include: {
+                    author: true,
+                    categories: true,
+                },
             });
-            return res.status(200).json(data)
-        }else{
-            throw ({message:"format penggunaan salah"})
+            return res.status(200).json(data);
+        } else {
+            throw {message: "format penggunaan salah"};
         }
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).json(error);
     }
-}
+};
 
 // untuk search
-// export const search = async(req,res)=>{
-//     try {
-//         const whatSearch = req.query.s;
-//         const data = await Blog.findMany({
-//             where:{
-//                 OR:[{title:{contains}}]
-//             }
-//         })
-//     } catch (error) {
-        
-//     }
-// }
-
-
-// untuk tambah data 
-export const store = async(req,res)=>{
+export const filter = async (req, res) => {
     try {
-        const {author,title,category_id,body} = req.body;
-        const tambah = await Blog.create({
-            data:{
-                author:{
-                    create:{
-                        nama:author
+        const whatSearch = req.query.s;
+        console.log(typeof whatSearch)
+        const data = await Blog.findMany({
+            where: {
+               OR:[
+                {judul:{contains:whatSearch}},
+                {body:{contains:whatSearch}},
+                {author:{
+                    is:{
+                        nama:{contains:whatSearch}
                     }
-                },
-                judul:title,
-                categories:{
-                    connect:{id:Number(category_id)}
-                },
-                body
+                }},
+                {categories:{
+                    is:{
+                        nama_category:{contains:whatSearch}
+                    }
+                }}
+               ]
             },
-            include:{
-                author:true,
-                categories:true
-            }
+            include: {
+                author: true,
+                categories: true,
+            },
+        });
+        if(data.length == 0){
+            return res.status(404).json({message:"data kosong"})
+        }
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(404).json(error);
+    }
+};
+
+// untuk tambah data
+export const store = async (req, res) => {
+    try {
+        const {author, title, category_id, body} = req.body;
+        const tambah = await Blog.create({
+            data: {
+                author: {
+                    create: {
+                        nama: author,
+                    },
+                },
+                judul: title,
+                categories: {
+                    connect: {id: Number(category_id)},
+                },
+                body,
+            },
+            include: {
+                author: true,
+                categories: true,
+            },
         });
         res.status(200).json(tambah);
     } catch (error) {
-        res.status(404).json({message:"gagal"})
+        res.status(404).json({message: "gagal"});
     }
-}
+};

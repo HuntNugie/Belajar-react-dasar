@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {index, show, store} from "../controllers/BlogController.js";
+import {index, show, store,filter} from "../controllers/BlogController.js";
 
 const blogRoute = Router();
 
@@ -10,7 +10,7 @@ blogRoute.get("/query", show);
 blogRoute.get("/all", index);
 
 // untuk search blog nya
-// blogRoute.get("/search",search);
+blogRoute.get("/search",filter);
 
 // untuk tambah data
 blogRoute.post("/add-blog", store);
