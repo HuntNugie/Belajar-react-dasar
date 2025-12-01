@@ -9,6 +9,8 @@ export default function ArticlePage() {
     const [post, setPost] = useState([]);
     const [keyword,setKeyword] = useState("");
     const [loading,setLoading] = useState(true);
+    const [ada,setAda] = useState(false);
+
     const api = import.meta.env.VITE_BACKEND_API;
     const handleKeyword = (value)=>{
         setKeyword(value)
@@ -23,13 +25,29 @@ export default function ArticlePage() {
         };
         request();
     }, []);
+
+    useEffect(()=>{
+        const request = async()=>{
+            try {
+            const res = await axios.get(`${api}/blog/search?s=${keyword}`)
+            const data = res.data;
+            setPost(data)
+            setAda(false)
+            } catch (error) {
+                console.log(error)
+                console.log(post)
+                setAda(true);
+            }
+        }
+        request();
+    },[keyword])
     return (
         <div id="articles-page" className="space-y-8">
             <Search onKeyword={handleKeyword}/>
             <small>keyword : {keyword}</small>
             {/* Articles Grid */}
             <div id="articlesGrid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {loading ? (<LoadingArticleCard/>) : post.map((el) => (
+                {loading ? (<LoadingArticleCard/>) : ada ? (<h1>tidak ada data dengan keyword {keyword}</h1>) : post.map((el) => (
                     <>
                         <ArticleCard data={el} />
                     </>
