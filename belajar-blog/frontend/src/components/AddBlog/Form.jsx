@@ -1,4 +1,26 @@
+import {useEffect} from "react";
+import {useState} from "react";
+import axios from "axios";
 export const Form = () => {
+    const [form, setForm] = useState({
+        author: "",
+        title: "",
+        category_id: "",
+        body: "",
+    });
+    const [category, setCategory] = useState([]);
+
+    const api = import.meta.env.VITE_BACKEND_API;
+
+    useEffect(() => {
+        // mengambil data category
+        const request = async () => {
+            const res = await axios.get(`${api}/category/all`);
+            const data = res.data;
+            setCategory(data);
+        };
+        request();
+    }, []);
     return (
         <>
             <form className="space-y-5">
@@ -25,9 +47,9 @@ export const Form = () => {
                     <label className="block text-gray-300 mb-1">Kategori</label>
                     <select className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white appearance-none focus:ring-2 focus:ring-blue-500 outline-none">
                         <option value="">Pilih kategori</option>
-                        <option value="teknologi">Teknologi</option>
-                        <option value="pendidikan">Pendidikan</option>
-                        <option value="hiburan">Hiburan</option>
+                        {category.map((el)=>{
+                            return <option value={el.id} key={el.id}>{el.nama_category}</option>
+                        })}
                     </select>
                 </div>
                 {/* Body Post */}
