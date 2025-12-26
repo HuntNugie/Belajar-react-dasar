@@ -1,5 +1,5 @@
 import {Router} from "express";
-import authRoute from "./auth.route.js";
+import apiRoute from "./api.route.js";
 
 const route = Router();
 
@@ -11,7 +11,6 @@ route.get("/", (req, res) => {
     });
 });
 
-// ini untuk sistem auth
-route.use("/auth", authRoute);
+route.use("/api", apiRoute);
 
 export default route;
