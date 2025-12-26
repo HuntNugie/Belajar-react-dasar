@@ -1,5 +1,6 @@
 import {body} from "express-validator";
 import User from "../models/User.js";
+import User_profile from "../models/User_profile.js";
 export const regisValid = [
     body("email")
     .notEmpty()
@@ -33,5 +34,17 @@ export const regisValid = [
     .trim()
     .matches(/^[\p{L}\s'-]+$/u)
     .withMessage("nama tidak valid"),
-    body("nim").notEmpty().withMessage("nim tidak boleh kosong").trim(),
+    body("nim")
+    .notEmpty()
+    .withMessage("nim tidak boleh kosong")
+    .trim()
+    .custom(async (value, {req}) => {
+        const isAda = await User_profile.findUnique({
+            where: {nim: value},
+        });
+        if (isAda) {
+            throw new Error("nim tersebut sudah di gunakan orang lain");
+        }
+        return true;
+    }),
 ];
