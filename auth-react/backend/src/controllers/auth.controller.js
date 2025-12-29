@@ -26,10 +26,19 @@ export const login = async (req, res) => {
             httpOnly: true,
             sameSite: "none",
             secure: true,
-            maxAge: 60 * 10 * 1000,
+            maxAge: 3 * 60 * 1000,
         });
         return res.status(200).json(result);
     } catch (error) {
         return res.status(401).json(error);
     }
+};
+
+export const logout = async (req, res) => {
+     res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+    });
+    return res.json({status:"ok",message:"berhasil logout"})
 };
