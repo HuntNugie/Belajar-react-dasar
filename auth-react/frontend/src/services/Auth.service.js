@@ -8,3 +8,6 @@ export const Register = (payload) => {
     return api.post("/api/auth/register", payload);
 };
 
+export const Logout = ()=>{
+    return api.post("/api/auth/logout");
+}

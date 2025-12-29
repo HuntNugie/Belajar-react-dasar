@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import AuthContext from "../context/AuthContext";
-import {Login, Register} from "../services/Auth.service";
+import {Login, Logout, Register} from "../services/Auth.service";
 import axios from "axios";
 
 export default function AuthProvider({children}) {
@@ -26,6 +26,12 @@ export default function AuthProvider({children}) {
         request();
     }, []);
 
+    useEffect(()=>{
+        window.addEventListener("logout",handleLogout);
+        return ()=>{
+            window.removeEventListener("logout",handleLogout)
+        }
+    },[])
     const handleRegister = async (payload) => {
         const res = await Register(payload);
         return res;
@@ -41,5 +47,17 @@ export default function AuthProvider({children}) {
             setUser(null)
         }
     };
-    return <AuthContext.Provider value={{user, handleRegister, loading, isAuth,handleLogin}}>{children}</AuthContext.Provider>;
+
+    const handleLogout = async()=>{
+        try {
+            await Logout();
+            setIsAuth(false);
+            setUser(null)
+        } catch {
+            console.log("gagal")
+        }
+    }
+    return <AuthContext.Provider value={{user, handleRegister, loading, isAuth,handleLogin,handleLogout}}>{children}</AuthContext.Provider>;
 }
+
+

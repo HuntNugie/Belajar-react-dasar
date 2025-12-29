@@ -1,12 +1,32 @@
+import { useState } from "react";
+import UseAuth from "../../hooks/UseAuth";
+import { Loading } from "../Loading";
+
 export const Navbar = () => {
+    const {handleLogout} = UseAuth();
+    const [loading,setLoading] = useState(false);
+
+    const handleKlik = async(e)=>{
+        e.preventDefault();
+        try {
+            setLoading(true)
+            await handleLogout();
+        } finally {
+            setLoading(false)
+        }    
+    }
+
+    if(loading){
+        return <Loading/>
+    }
     return (
         <>
             <nav className="navbar navbar-dark bg-black">
                 <div className="container-fluid">
                     <span className="navbar-brand">Admin Panel</span>
-                    <a href="login.html" className="btn btn-outline-light btn-sm">
+                    <button onClick={handleKlik} className="btn btn-outline-light btn-sm">
                         Logout
-                    </a>
+                    </button>
                 </div>
             </nav>
         </>
