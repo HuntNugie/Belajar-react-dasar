@@ -11,3 +11,7 @@ export const register = async (req, res) => {
         return res.status(400).json(error);
     }
 };
+
+export const checkMe = (req, res) => {
+    return res.status(200).json(req.payload);
+};
