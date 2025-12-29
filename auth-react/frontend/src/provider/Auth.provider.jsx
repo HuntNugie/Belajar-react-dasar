@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import AuthContext from "../context/AuthContext";
-import {Register} from "../services/Auth.service";
+import {Login, Register} from "../services/Auth.service";
 import axios from "axios";
 
 export default function AuthProvider({children}) {
@@ -31,5 +31,15 @@ export default function AuthProvider({children}) {
         return res;
     };
 
-    return <AuthContext.Provider value={{user, handleRegister, loading, isAuth}}>{children}</AuthContext.Provider>;
+    const handleLogin = async (auth) => {
+        try {
+            const res = await Login(auth);
+            setUser(res.data);
+            setIsAuth(true);
+        } catch {
+            setIsAuth(false);
+            setUser(null)
+        }
+    };
+    return <AuthContext.Provider value={{user, handleRegister, loading, isAuth,handleLogin}}>{children}</AuthContext.Provider>;
 }
