@@ -22,7 +22,7 @@ export default function Register() {
             await handleRegister(form);
             navigate("/login");
         } catch (error) {
-            error.error.response.data.error.map(el=>{
+            error.response.data.error.map(el=>{
                 console.log(el.msg)
             })
         } finally {

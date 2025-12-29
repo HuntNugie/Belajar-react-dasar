@@ -1,24 +1,35 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import AuthContext from "../context/AuthContext";
-import { Register } from "../services/Auth.service";
+import {Register} from "../services/Auth.service";
+import axios from "axios";
 
-export default function AuthProvider({children}){
-const [user,setUser] = useState({});
+export default function AuthProvider({children}) {
+    const [user, setUser] = useState(null);
+    const [isAuth, setIsAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const request = async () => {
+            try {
+                const check = await axios.get(`${import.meta.env.VITE_SERVER_BACKEND}/api/auth/me`, {
+                    withCredentials: true,
+                });
+                const data = check.data;
+                setUser(data);
+                setIsAuth(true);
+            } catch (error) {
+                console.log(error.response.data);
+                setIsAuth(false);
+            } finally {
+                setLoading(false);
+            }
+        };
+        request();
+    }, []);
 
+    const handleRegister = async (payload) => {
+        const res = await Register(payload);
+        return res;
+    };
 
-
-const handleRegister = async(payload)=>{
-    try {
-        const register = await Register(payload)
-        setUser(register)
-    } catch (error) {
-        console.log(error)
-        throw {error};
-    }
-}
-
-
-    return <AuthContext.Provider value={{user,handleRegister}}>
-        {children}
-    </AuthContext.Provider>
+    return <AuthContext.Provider value={{user, handleRegister, loading, isAuth}}>{children}</AuthContext.Provider>;
 }

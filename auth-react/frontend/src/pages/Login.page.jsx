@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Navlink } from "../components/Navlink";
 
 export default function Login() {
@@ -13,7 +14,7 @@ export default function Login() {
                     <label className="form-label">Password</label>
                     <input type="password" className="form-control" placeholder="********" />
                 </div>
-                <button className="btn btn-dark w-100">Login</button>
+                <button className="btn btn-dark w-100"> <Link to={"/dashboard"}>Dashboard</Link> </button>
             </form>
             <p className="text-center mt-3">
                 Belum punya akun?
